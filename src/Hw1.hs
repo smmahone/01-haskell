@@ -29,7 +29,8 @@ import Prelude  hiding (replicate, sum, reverse)
 -- 36
 
 sumList :: [Int] -> Int
-sumList xs = error "TBD:sumList"
+sumList [] = 0
+sumList (a:as) = a + sumList(as)
 
 
 -- | `digitsOfInt n` should return `[]` if `n` is not positive,
@@ -43,7 +44,9 @@ sumList xs = error "TBD:sumList"
 -- [3, 5, 2, 6, 6, 3]
 
 digitsOfInt :: Int -> [Int]
-digitsOfInt n = error "TBD:digitsOfInt"
+digitsOfInt 0 = []
+digitsOfInt n = digitsOfInt(div n 10) ++ [mod n 10]
+
 
 
 -- | `digits n` returns the list of digits of `n`
@@ -79,7 +82,7 @@ digits n = digitsOfInt (abs n)
 -- 2
 
 additivePersistence :: Int -> Int
-additivePersistence n = error "TBD"
+additivePersistence n = if n >= 10 then 1 + additivePersistence(sumList(digitsOfInt(n))) else 0
 
 -- | digitalRoot n is the digit obtained at the end of the sequence
 --   computing the additivePersistence
@@ -91,8 +94,7 @@ additivePersistence n = error "TBD"
 -- 9
 
 digitalRoot :: Int -> Int
-digitalRoot n = error "TBD"
-
+digitalRoot n = if n >= 10 then digitalRoot(sumList(digitsOfInt(n))) else n
 
 -- | listReverse [x1,x2,...,xn] returns [xn,...,x2,x1]
 --
@@ -106,7 +108,8 @@ digitalRoot n = error "TBD"
 -- ["bicycle", "my", "ride", "to", "want", "i"]
 
 listReverse :: [a] -> [a]
-listReverse xs = error "TBD"
+listReverse (x:xs) = listReverse(xs) ++ [x]
+listReverse [] = []
 
 -- | In Haskell, a `String` is a simply a list of `Char`, that is:
 --
@@ -120,4 +123,4 @@ listReverse xs = error "TBD"
 -- False
 
 palindrome :: String -> Bool
-palindrome w = error "TBD"
+palindrome w = if (w == listReverse(w)) then True else False
